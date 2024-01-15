@@ -8,3 +8,11 @@ class CommentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    captcha = RestCaptchaSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ["username", "email", "text", "home_page", "parent", "captcha"]
