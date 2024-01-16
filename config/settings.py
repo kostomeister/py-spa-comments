@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_captcha",
     "channels",
+    "django_celery_beat",
 
     # custom apps
     "comments",
@@ -151,3 +152,6 @@ REST_CAPTCHA = {
     "FILTER_FUNCTION": "rest_captcha.captcha.filter_default",
     "NOISE_FUNCTION": "rest_captcha.captcha.noise_default",
 }
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
