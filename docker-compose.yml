@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  app:
+    container_name: spa-comments
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+        - ./:/app
+    command: ["./entrypoint.sh"]
+    env_file:
+      - .env
+
+  redis:
+    image: "redis:alpine"
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A config worker -l INFO -P eventlet"
+    depends_on:
+      - app
+      - redis
+    restart: on-failure
+    env_file:
+      - .env
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    depends_on:
+      - app
+      - redis
+    restart: on-failure
+    env_file:
+      - .env
