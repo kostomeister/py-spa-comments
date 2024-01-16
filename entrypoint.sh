@@ -8,4 +8,4 @@ python manage.py migrate
 # Start Django server
 #python manage.py runserver 0.0.0.0:8000
 
-#daphne config.asgi:application - websockets
+#daphne config.asgi:application
